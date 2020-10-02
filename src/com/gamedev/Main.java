@@ -1,4 +1,4 @@
-package com.parallelism;
+package com.gamedev;
 
 public class Main {
 
