@@ -18,6 +18,7 @@ public class Controller {
 
     public void startGame() {
         view.printGameBoard(model.getGameBoard());
+//        System.out.println(model.getPossibleMoves(Model.Player.BLACK));
         view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Model.Player.BLACK)));
     }
 }
