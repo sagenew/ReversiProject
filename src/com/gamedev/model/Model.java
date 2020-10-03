@@ -95,10 +95,6 @@ public class Model {
                 : Player.BLACK;
     }
 
-    public int[][] getBoard() {
-        return board;
-    }
-
     public boolean moveNotValid(Move move) {
         if (move == null) return true;
 
@@ -144,8 +140,11 @@ public class Model {
         return moves;
     }
 
-    public int[][] getGameBoardWithMoves(Set<Move> moves) {
+    public int[][] getGameBoard(boolean showHints) {
+        if (!showHints) return board;
+
         int[][] gameBoardWithMoves = board.clone();
+        Set<Move> moves = getPossibleMoves(currentPlayer);
         moves.forEach((move) -> gameBoardWithMoves[move.getRow()][move.getCol()] = 3);
         return gameBoardWithMoves;
     }
@@ -159,6 +158,22 @@ public class Model {
     }
 
     public Player getWinner() {
-        return null;
+        int count = 0;
+
+        for (int[] row : board) {
+            for (int element : row) {
+                if (element == 2) {
+                    count++;
+                } else if (element == 1) {
+                    count--;
+                }
+            }
+        }
+
+        return count == 0
+                ? Player.TIE
+                : count > 0
+                        ? Player.BLACK
+                        : Player.WHITE;
     }
 }

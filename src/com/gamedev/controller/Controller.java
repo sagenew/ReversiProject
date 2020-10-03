@@ -5,19 +5,21 @@ import com.gamedev.model.entity.Move;
 import com.gamedev.model.entity.Player;
 import com.gamedev.view.ConsoleView;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
-    Model model;
-    ConsoleView view;
-    Scanner scanner;
-    Player player;
+    private Model model;
+    private ConsoleView view;
+    private Scanner scanner;
+    private Player player;
+    private AIController aiController;
+    private boolean showHints;
 
     public Controller() {
         model = new Model();
         view = new ConsoleView();
         scanner = new Scanner(System.in);
+        aiController = new AIController(model);
     }
 
     public void startGame() {
@@ -28,23 +30,19 @@ public class Controller {
 
     private void gameLoop() {
         Player currentPlayer;
+
         while (model.gameNotFinished()) {
             currentPlayer = model.getCurrentPlayer();
             if (isPlayerTurn(currentPlayer)) {
-                view.printGameBoard(model.getBoard());
+                view.printGameBoard(model.getGameBoard(showHints));
                 Move move = getPlayerMove(currentPlayer);
                 model.placeDisc(move);
             } else {
-                model.placeDisc(getRandomPossibleMove(currentPlayer));
+                aiController.computerTurn();
             }
         }
 
         view.gameOverMessage(model.getWinner());
-    }
-
-    private Move getRandomPossibleMove(Player currentPlayer) {
-        ArrayList<Move> movesList = new ArrayList<>(model.getPossibleMoves(currentPlayer));
-        return movesList.get(0);
     }
 
     private Move getPlayerMove(Player currentPlayer) {
@@ -69,7 +67,13 @@ public class Controller {
                 player = Player.PVP;
                 model.initGame();
             }
-            case "3" -> System.exit(0);
+            case "3" -> {
+                showHints = !showHints;
+                view.hintsOptionMessage(showHints);
+                view.chooseModeMenu();
+                setupGame();
+            }
+            case "4" -> System.exit(0);
             default -> {
                 view.invalidOptionMenu();
                 view.chooseModeMenu();

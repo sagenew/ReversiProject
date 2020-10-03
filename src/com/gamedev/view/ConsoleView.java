@@ -9,7 +9,7 @@ public class ConsoleView {
         for (int row = 0; row < gameBoard.length; row++) {
             System.out.print(row + 1);
             System.out.print(" | ");
-            for (int col = 0; col < gameBoard[row].length ; col++) {
+            for (int col = 0; col < gameBoard[row].length; col++) {
                 switch (gameBoard[row][col]) {
 //                    case 0 -> System.out.print("   | ");
 //                    case 1 -> System.out.print("🔵 | ");
@@ -28,21 +28,22 @@ public class ConsoleView {
     }
 
     private String getBlackDisc() {
-        if(System.getProperty("os.name").equals("Linux")) return "🔴";
+        if (System.getProperty("os.name").equals("Linux")) return "🔴";
         else return "x ";
     }
 
     private String getWhiteDisc() {
-        if(System.getProperty("os.name").equals("Linux")) return "🔵";
+        if (System.getProperty("os.name").equals("Linux")) return "🔵";
         else return "o ";
     }
 
 
     public void printHorizontalLine() {
-            System.out.println("  +----+----+----+----+----+----+----+----+");
+        System.out.println("  +----+----+----+----+----+----+----+----+");
     }
 
-    public void printWelcomingMessage() { }
+    public void printWelcomingMessage() {
+    }
 
     public void startGameMenu() {
         System.out.println("Welcome to Othello game!");
@@ -53,7 +54,8 @@ public class ConsoleView {
         System.out.println("Please choose the mode you want to play:");
         System.out.println("1 - Play vs Computer");
         System.out.println("2 - HotSeat (play vs another player)");
-        System.out.println("3 - Exit");
+        System.out.println("3 - Turn on/off possible moves hint (Disabled by default)");
+        System.out.println("4 - Exit");
     }
 
     public void chooseColorMenu() {
@@ -71,6 +73,18 @@ public class ConsoleView {
     }
 
     public void gameOverMessage(Player player) {
-        System.out.println(player.toString() + " wins!");
+        if (player == Player.TIE) {
+            System.out.println("Tie! No player wins!");
+        } else {
+            System.out.println(player.toString() + " player wins!");
+        }
+    }
+
+    public void hintsOptionMessage(boolean showHints) {
+        if (showHints) {
+            System.out.println("Hints enabled!");
+        } else {
+            System.out.println("Hints disabled!");
+        }
     }
 }
