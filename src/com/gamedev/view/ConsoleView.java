@@ -60,6 +60,8 @@ public class ConsoleView {
         System.out.println("Invalid option chosen! Please choose again.");
     }
 
+    public void invalidMove() { System.out.println("Invalid move! Each move has to capture at least one opponent`s disc."); }
+
     public void playerMovePrompt(Player player) {
         System.out.print("Enter move for " + player.toString() + " player: ");
     }
