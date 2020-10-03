@@ -5,8 +5,8 @@ import com.gamedev.model.entity.Move;
 import com.gamedev.model.entity.Player;
 import com.gamedev.view.ConsoleView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Controller {
     Model model;
@@ -24,7 +24,6 @@ public class Controller {
         view.startGameMenu();
         setupGame();
         gameLoop();
-//        view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Player.BLACK)));
     }
 
     private void gameLoop() {
@@ -32,19 +31,26 @@ public class Controller {
         while (model.gameNotFinished()) {
             currentPlayer = model.getCurrentPlayer();
             if (isPlayerTurn(currentPlayer)) {
+                view.printGameBoard(model.getBoard());
                 Move move = getPlayerMove(currentPlayer);
-                model.placeDisc();
+                model.placeDisc(move);
+            } else {
+                model.placeDisc(getRandomPossibleMove(currentPlayer));
             }
         }
 
         view.gameOverMessage(model.getWinner());
     }
 
+    private Move getRandomPossibleMove(Player currentPlayer) {
+        ArrayList<Move> movesList = new ArrayList<>(model.getPossibleMoves(currentPlayer));
+        return movesList.get(0);
+    }
+
     private Move getPlayerMove(Player currentPlayer) {
-        Set<Move> possibleMoves = model.getPossibleMoves(currentPlayer);
         Move move = null;
         String line;
-        while (!possibleMoves.contains(move)) {
+        while (model.moveNotValid(move)) {
             view.playerMovePrompt(currentPlayer);
             line = scanner.nextLine();
             move = moveFromInput(line);
@@ -93,7 +99,7 @@ public class Controller {
     private Move moveFromInput(String line) {
         line = line.toUpperCase();
         return inputMatchesFormat(line)
-                ? new Move(line.charAt(0) - 'A', line.charAt(1) - '1')
+                ? new Move(line.charAt(1) - '1', line.charAt(0) - 'A')
                 : null;
     }
 

@@ -16,10 +16,10 @@ public class ConsoleView {
 //                    case 2 -> System.out.print("🔴 | "); //🔴⚫🔵⚪
 //                    case 3 -> System.out.print("◯ | ");
 
-                    case 0 -> System.out.printf("  %c ", '|');
-                    case 1 -> System.out.printf("%s  %c ", getWhiteDisc(), '|');
-                    case 2 -> System.out.printf("%s  %c ", getBlackDisc(), '|');
-                    case 3 -> System.out.printf("%c  %c ", '◯', '|');
+                    case 0 -> System.out.printf("   %c ", '|');
+                    case 1 -> System.out.printf("%s %c ", getWhiteDisc(), '|');
+                    case 2 -> System.out.printf("%s %c ", getBlackDisc(), '|');
+                    case 3 -> System.out.printf("%c %c ", '◯', '|');
                 }
             }
             System.out.print("\n");
@@ -29,12 +29,12 @@ public class ConsoleView {
 
     private String getBlackDisc() {
         if(System.getProperty("os.name").equals("Linux")) return "🔴";
-        else return "⚫";
+        else return "x ";
     }
 
     private String getWhiteDisc() {
         if(System.getProperty("os.name").equals("Linux")) return "🔵";
-        else return "⚪";
+        else return "o ";
     }
 
 
