@@ -3,6 +3,7 @@ package com.gamedev.view;
 import com.gamedev.model.entity.Player;
 
 public class ConsoleView {
+
     public void printGameBoard(int[][] gameBoard) {
         System.out.println("    A    B    C    D    E    F    G    H    ");
         printHorizontalLine();
@@ -11,11 +12,6 @@ public class ConsoleView {
             System.out.print(" | ");
             for (int col = 0; col < gameBoard[row].length; col++) {
                 switch (gameBoard[row][col]) {
-//                    case 0 -> System.out.print("   | ");
-//                    case 1 -> System.out.print("🔵 | ");
-//                    case 2 -> System.out.print("🔴 | "); //🔴⚫🔵⚪
-//                    case 3 -> System.out.print("◯ | ");
-
                     case 0 -> System.out.printf("   %c ", '|');
                     case 1 -> System.out.printf("%s %c ", getWhiteDisc(), '|');
                     case 2 -> System.out.printf("%s %c ", getBlackDisc(), '|');
@@ -37,12 +33,8 @@ public class ConsoleView {
         else return "o ";
     }
 
-
     public void printHorizontalLine() {
         System.out.println("  +----+----+----+----+----+----+----+----+");
-    }
-
-    public void printWelcomingMessage() {
     }
 
     public void startGameMenu() {

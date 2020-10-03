@@ -80,6 +80,10 @@ public class Model {
             j = j + directionY;
         }
 
+        if (!inBounds(i, j)) {
+            toFlip.clear();
+        }
+
         for (Move markedMove : toFlip) {
             board[markedMove.getRow()][markedMove.getCol()] = player;
         }
