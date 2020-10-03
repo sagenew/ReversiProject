@@ -11,16 +11,33 @@ public class ConsoleView {
             System.out.print(" | ");
             for (int col = 0; col < gameBoard[row].length ; col++) {
                 switch (gameBoard[row][col]) {
-                    case 0 -> System.out.print("   | ");
-                    case 1 -> System.out.print("🔵 | ");
-                    case 2 -> System.out.print("🔴 | "); //🔴⚫🔵⚪
-                    case 3 -> System.out.print("◯ | ");
+//                    case 0 -> System.out.print("   | ");
+//                    case 1 -> System.out.print("🔵 | ");
+//                    case 2 -> System.out.print("🔴 | "); //🔴⚫🔵⚪
+//                    case 3 -> System.out.print("◯ | ");
+
+                    case 0 -> System.out.printf("  %c ", '|');
+                    case 1 -> System.out.printf("%s  %c ", getWhiteDisc(), '|');
+                    case 2 -> System.out.printf("%s  %c ", getBlackDisc(), '|');
+                    case 3 -> System.out.printf("%c  %c ", '◯', '|');
                 }
             }
             System.out.print("\n");
             printHorizontalLine();
         }
     }
+
+    private String getBlackDisc() {
+        if(System.getProperty("os.name").equals("Linux")) return "🔴";
+        else return "⚫";
+    }
+
+    private String getWhiteDisc() {
+        if(System.getProperty("os.name").equals("Linux")) return "🔵";
+        else return "⚪";
+    }
+
+
     public void printHorizontalLine() {
             System.out.println("  +----+----+----+----+----+----+----+----+");
     }
