@@ -5,7 +5,7 @@ import java.util.*;
 public class Model {
     private int [][] gameBoard;
 
-    public enum Player{WHITE, BLACK}
+    public enum Player{PVP, WHITE, BLACK}
 
     class Move {
         int row;
@@ -22,6 +22,9 @@ public class Model {
         clearTable();
         placeStartGameDiscs();
     }
+
+    public void initGame() {}
+
     public void clearTable() {
         for (int[] row: gameBoard) {
             Arrays.fill(row, 0);
@@ -32,16 +35,6 @@ public class Model {
         gameBoard[3][4] = 1;
         gameBoard[4][3] = 1;
         gameBoard[4][4] = 2;
-        gameBoard[0][0] = 2;
-        gameBoard[0][1] = 1;
-        gameBoard[1][1] = 1;
-        gameBoard[1][0] = 1;
-        gameBoard[2][2] = 2;
-        gameBoard[2][3] = 1;
-        gameBoard[7][7] = 2;
-        gameBoard[7][0] = 2;
-        gameBoard[0][7] = 2;
-
     }
 
     public int[][] getGameBoard() {
@@ -57,21 +50,21 @@ public class Model {
                 if(gameBoard[row][col] == playerDisc) {
 //                    System.out.println((row + 1 ) + " " + (col + 1));
                     if (col != gameBoard[row].length - 1)
-                    checkMovesOnRight(row,col, moves, opponentDisc);
+                        checkMovesOnRight(row,col, moves, opponentDisc);
                     if (col != 0)
-                    checkMovesOnLeft(row,col, moves, opponentDisc);
+                        checkMovesOnLeft(row,col, moves, opponentDisc);
                     if (row != 0)
-                    checkMovesOnUp(row,col, moves, opponentDisc);
+                        checkMovesOnUp(row,col, moves, opponentDisc);
                     if (row != gameBoard.length - 1)
-                    checkMovesOnDown(row,col, moves, opponentDisc);
+                        checkMovesOnDown(row,col, moves, opponentDisc);
                     if (col != gameBoard[row].length - 1 && row != 0)
-                    checkMovesOnRightUp(row,col, moves, opponentDisc);
+                        checkMovesOnRightUp(row,col, moves, opponentDisc);
                     if (col != gameBoard[row].length - 1 && row != gameBoard.length - 1)
-                    checkMovesOnRightDown(row,col, moves, opponentDisc);
+                        checkMovesOnRightDown(row,col, moves, opponentDisc);
                     if (col != 0 && row != 0)
-                    checkMovesOnLeftUp(row,col, moves, opponentDisc);
+                        checkMovesOnLeftUp(row,col, moves, opponentDisc);
                     if (col != 0 && row != gameBoard.length - 1)
-                    checkMovesOnLeftDown(row,col, moves, opponentDisc);
+                        checkMovesOnLeftDown(row,col, moves, opponentDisc);
 
                 }
             }
