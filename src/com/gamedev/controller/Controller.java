@@ -1,24 +1,104 @@
 package com.gamedev.controller;
 
 import com.gamedev.model.Model;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
 import com.gamedev.view.ConsoleView;
 
-import javax.swing.text.View;
-import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+import static com.gamedev.controller.MessageUtils.*;
 
 public class Controller {
-
     Model model;
     ConsoleView view;
+    Scanner scanner;
+    Player player;
 
     public Controller() {
         model = new Model();
         view = new ConsoleView();
+        scanner = new Scanner(System.in);
     }
 
     public void startGame() {
-        view.printGameBoard(model.getGameBoard());
-//        System.out.println(model.getPossibleMoves(Model.Player.BLACK));
-        view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Model.Player.BLACK)));
+        startGameMenu();
+        setupGame();
+        gameLoop();
+    }
+
+    private void gameLoop() {
+        Player currentPlayer;
+        while (model.gameNotFinished()) {
+            currentPlayer = model.getCurrentPlayer();
+            if (isPlayerTurn(currentPlayer)) {
+                Move move = getPlayerMove(currentPlayer);
+                model.placeDisc();
+            }
+        }
+
+        gameOverMessage(model.getWinner());
+    }
+
+    private Move getPlayerMove(Player currentPlayer) {
+        Set<Move> possibleMoves = model.getPossibleMoves(currentPlayer);
+        Move move = null;
+        String line;
+        while (!possibleMoves.contains(move)) {
+            playerMovePrompt(currentPlayer);
+            line = scanner.nextLine();
+            move = moveFromInput(line);
+        }
+        return move;
+    }
+
+    private void setupGame() {
+        String choice = scanner.nextLine();
+        switch (choice) {
+            case "1" -> {
+                chooseColor();
+                model.initGame();
+            }
+            case "2" -> {
+                player = Player.PVP;
+                model.initGame();
+            }
+            case "3" -> System.exit(0);
+            default -> {
+                invalidOptionMenu();
+                chooseModeMenu();
+                setupGame();
+            }
+        }
+    }
+
+    private void chooseColor() {
+        chooseColorMenu();
+
+        String choice = scanner.nextLine();
+        switch (choice) {
+            case "1" -> player = Player.BLACK;
+            case "2" -> player = Player.WHITE;
+            default -> {
+                invalidOptionMenu();
+                chooseColor();
+            }
+        }
+    }
+
+    private boolean isPlayerTurn(Player currentPlayer) {
+        return player.equals(currentPlayer) || player.equals(Player.PVP);
+    }
+
+    private Move moveFromInput(String line) {
+        line = line.toUpperCase();
+        return inputMatchesFormat(line)
+                ? new Move(line.charAt(0) - 'A', line.charAt(1) - '1')
+                : null;
+    }
+
+    private boolean inputMatchesFormat(String line) {
+        return line.matches("^[A-H][1-8]$");
     }
 }

@@ -1,77 +1,60 @@
 package com.gamedev.model;
 
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
+
 import java.util.*;
 
 public class Model {
-    private int [][] gameBoard;
+    private int [][] board;
+    private Player currentPlayer;
 
-    public enum Player{WHITE, BLACK}
-
-    class Move {
-        int row;
-        int col;
-
-        public Move(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
+    public void initGame() {
+        board = new int[8][8];
+        placeStartDiscs();
+        currentPlayer = Player.BLACK;
     }
 
-    public Model() {
-        gameBoard = new int[8][8];
-        clearTable();
-        placeStartGameDiscs();
-    }
-    public void clearTable() {
-        for (int[] row: gameBoard) {
+    private void clearBoard() {
+        for (int[] row: board) {
             Arrays.fill(row, 0);
         }
     }
-    public void placeStartGameDiscs() {
-        gameBoard[3][3] = 2;
-        gameBoard[3][4] = 1;
-        gameBoard[4][3] = 1;
-        gameBoard[4][4] = 2;
-        gameBoard[0][0] = 2;
-        gameBoard[0][1] = 1;
-        gameBoard[1][1] = 1;
-        gameBoard[1][0] = 1;
-        gameBoard[2][2] = 2;
-        gameBoard[2][3] = 1;
-        gameBoard[7][7] = 2;
-        gameBoard[7][0] = 2;
-        gameBoard[0][7] = 2;
-
+    private void placeStartDiscs() {
+        board[3][3] = 2;
+        board[3][4] = 1;
+        board[4][3] = 1;
+        board[4][4] = 2;
     }
 
-    public int[][] getGameBoard() {
-        return gameBoard;
+    public int[][] getBoard() {
+        return board;
     }
 
     public Set<Move> getPossibleMoves(Player player) {
         Set<Move> moves = new HashSet<>();
         int playerDisc = (player == Player.BLACK) ? 2 : 1;
         int opponentDisc = (player == Player.BLACK) ? 1 : 2;
-        for(int row = 0; row < gameBoard.length; row++) {
-            for(int col = 0; col < gameBoard[row].length; col++) {
-                if(gameBoard[row][col] == playerDisc) {
+        for(int row = 0; row < board.length; row++) {
+            for(int col = 0; col < board[row].length; col++) {
+                if(board[row][col] == playerDisc) {
 //                    System.out.println((row + 1 ) + " " + (col + 1));
-                    if (col != gameBoard[row].length - 1)
-                    checkMovesOnRight(row,col, moves, opponentDisc);
+                    if (col != board[row].length - 1)
+                        checkMovesOnRight(row,col, moves, opponentDisc);
                     if (col != 0)
-                    checkMovesOnLeft(row,col, moves, opponentDisc);
+                        checkMovesOnLeft(row,col, moves, opponentDisc);
                     if (row != 0)
-                    checkMovesOnUp(row,col, moves, opponentDisc);
-                    if (row != gameBoard.length - 1)
-                    checkMovesOnDown(row,col, moves, opponentDisc);
-                    if (col != gameBoard[row].length - 1 && row != 0)
-                    checkMovesOnRightUp(row,col, moves, opponentDisc);
-                    if (col != gameBoard[row].length - 1 && row != gameBoard.length - 1)
-                    checkMovesOnRightDown(row,col, moves, opponentDisc);
+                        checkMovesOnUp(row,col, moves, opponentDisc);
+                    if (row != board.length - 1)
+                        checkMovesOnDown(row,col, moves, opponentDisc);
+                    if (col != board[row].length - 1 && row != 0)
+                        checkMovesOnRightUp(row,col, moves, opponentDisc);
+                    if (col != board[row].length - 1 && row != board.length - 1)
+                        checkMovesOnRightDown(row,col, moves, opponentDisc);
                     if (col != 0 && row != 0)
-                    checkMovesOnLeftUp(row,col, moves, opponentDisc);
-                    if (col != 0 && row != gameBoard.length - 1)
-                    checkMovesOnLeftDown(row,col, moves, opponentDisc);
+                        checkMovesOnLeftUp(row,col, moves, opponentDisc);
+                    if (col != 0 && row != board.length - 1)
+                        checkMovesOnLeftDown(row,col, moves, opponentDisc);
 
                 }
             }
@@ -81,12 +64,12 @@ public class Model {
 
     private void checkMovesOnRight(int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
-        for(int i = col + 1; i < gameBoard[col].length; i++) {
-            if (gameBoard[row][i] == opponentDisc) {
+        for(int i = col + 1; i < board[col].length; i++) {
+            if (board[row][i] == opponentDisc) {
                 capturesOpponentDisc = true;
                 continue;
             }
-            if (gameBoard[row][i] == 0 && capturesOpponentDisc) {
+            if (board[row][i] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, i));
             }
             break;
@@ -96,11 +79,11 @@ public class Model {
     private void checkMovesOnLeft(int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
         for(int i = col - 1; i >= 0; i--) {
-            if (gameBoard[row][i] == opponentDisc) {
+            if (board[row][i] == opponentDisc) {
                 capturesOpponentDisc = true;
                 continue;
             }
-            if (gameBoard[row][i] == 0 && capturesOpponentDisc) {
+            if (board[row][i] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, i));
             }
             break;
@@ -110,11 +93,11 @@ public class Model {
     private void checkMovesOnUp(int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
         for(int i = row - 1; i >= 0; i--) {
-            if (gameBoard[i][col] == opponentDisc) {
+            if (board[i][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 continue;
             }
-            if (gameBoard[i][col] == 0 && capturesOpponentDisc) {
+            if (board[i][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(i, col));
             }
             break;
@@ -123,12 +106,12 @@ public class Model {
 
     private void checkMovesOnDown(int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
-        for(int i = row + 1; i < gameBoard.length; i++) {
-            if (gameBoard[i][col] == opponentDisc) {
+        for(int i = row + 1; i < board.length; i++) {
+            if (board[i][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 continue;
             }
-            if (gameBoard[i][col] == 0 && capturesOpponentDisc) {
+            if (board[i][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(i, col));
             }
             break;
@@ -138,13 +121,13 @@ public class Model {
     private void checkMovesOnRightUp(int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
         row --; col ++;
-        while ( row >= 0 && col < gameBoard[row].length){
-            if (gameBoard[row][col] == opponentDisc) {
+        while ( row >= 0 && col < board[row].length){
+            if (board[row][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 row --; col ++;
                 continue;
             }
-            if (gameBoard[row][col] == 0 && capturesOpponentDisc) {
+            if (board[row][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, col));
             }
             break;
@@ -154,13 +137,13 @@ public class Model {
     private void checkMovesOnRightDown (int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
         row ++; col ++;
-        while ( row < gameBoard.length && col < gameBoard[row].length){
-            if (gameBoard[row][col] == opponentDisc) {
+        while ( row < board.length && col < board[row].length){
+            if (board[row][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 row ++; col ++;
                 continue;
             }
-            if (gameBoard[row][col] == 0 && capturesOpponentDisc) {
+            if (board[row][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, col));
                 System.out.println((row + 1) + " " + (col + 1));
             }
@@ -172,12 +155,12 @@ public class Model {
         boolean capturesOpponentDisc = false;
         row --; col --;
         while ( row >= 0 && col >= 0){
-            if (gameBoard[row][col] == opponentDisc) {
+            if (board[row][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 row --; col --;
                 continue;
             }
-            if (gameBoard[row][col] == 0 && capturesOpponentDisc) {
+            if (board[row][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, col));
             }
             break;
@@ -187,13 +170,13 @@ public class Model {
     private void checkMovesOnLeftDown (int row, int col, Set<Move> moves, int opponentDisc) {
         boolean capturesOpponentDisc = false;
         row ++; col --;
-        while ( row < gameBoard.length && col >= 0){
-            if (gameBoard[row][col] == opponentDisc) {
+        while ( row < board.length && col >= 0){
+            if (board[row][col] == opponentDisc) {
                 capturesOpponentDisc = true;
                 row ++; col --;
                 continue;
             }
-            if (gameBoard[row][col] == 0 && capturesOpponentDisc) {
+            if (board[row][col] == 0 && capturesOpponentDisc) {
                 moves.add(new Move(row, col));
             }
             break;
@@ -201,9 +184,23 @@ public class Model {
     }
 
     public int [][] getGameBoardWithMoves(Set<Move> moves) {
-        int [][] gameBoardWithMoves = gameBoard.clone();
-        moves.forEach((move) -> gameBoardWithMoves[move.row][move.col] = 3);
+        int [][] gameBoardWithMoves = board.clone();
+        moves.forEach((move) -> gameBoardWithMoves[move.getRow()][move.getCol()] = 3);
         return gameBoardWithMoves;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public boolean gameNotFinished() {
+        return getPossibleMoves(Player.BLACK).size() + getPossibleMoves(Player.WHITE).size() > 0;
+    }
+
+    public void placeDisc() {
+    }
+
+    public Player getWinner() {
+        return null;
+    }
 }
