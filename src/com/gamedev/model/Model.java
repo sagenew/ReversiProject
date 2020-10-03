@@ -118,31 +118,34 @@ public class Model {
             for (int col = 0; col < board[row].length; col++) {
                 if (board[row][col] != 0) continue;
 
-//              search for opponent discs in square
-                for (int i = -1; i <= 1; i++)
-                    for (int j = -1; j <= 1; j++) {
-                        if ((row + i < 0 || row + i >= BOARD_SIZE)
-                                || (col + j < 0 || col + j >= board[row].length)
-                                || (i == 0 && j == 0)) continue;
+                int[] directionsX = { -1, -1, -1,  0, 0,  1, 1, 1 };
+                int[] directionsY = { -1,  0,  1, -1, 1, -1, 0, 1 };
+                for (int i = 0; i < directionsX.length; i++) {
+                    if ((hasOpponentDiscInDirection(row + directionsX[i], col + directionsY[i], opponentDisc))
+                            && hasPlayerDiscInDirection(row, col, directionsX[i], directionsY[i], playerDisc))
+                        moves.add(new Move(row, col));
 
-                        if (board[row + i][col + j] == opponentDisc) {
-                            int x = row + i;
-                            int y = col + j;
-//                          search for player discs in direction
-                            while (true) {
-                                x += i;
-                                y += j;
-                                if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE
-                                        || board[x][y] == 0) break;
-                                if (board[x][y] == playerDisc) {
-                                    moves.add(new Move(row, col));
-                                }
-                            }
-                        }
-                    }
+                }
             }
         return moves;
     }
+
+    private boolean hasOpponentDiscInDirection(int row, int col, int opponentDisc) {
+        if ((row < 0 || row >= BOARD_SIZE) || (col < 0 || col >= BOARD_SIZE)) return false;
+        return board[row][col] == opponentDisc;
+    }
+    private boolean hasPlayerDiscInDirection(int row, int col, int directionX, int directionY, int playerDisc) {
+        int x = row + directionX;
+        int y = col + directionY;
+        while (true) {
+            x += directionX;
+            y += directionY;
+            if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE || board[x][y] == 0) break;
+            if (board[x][y] == playerDisc) return true;
+        }
+        return false;
+    }
+
 
     public int[][] getGameBoardWithMoves(Set<Move> moves) {
         int[][] gameBoardWithMoves = board.clone();
