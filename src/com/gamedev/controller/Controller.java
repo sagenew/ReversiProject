@@ -23,8 +23,8 @@ public class Controller {
     public void startGame() {
         view.startGameMenu();
         setupGame();
-//        gameLoop();
-        view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Player.BLACK)));
+        gameLoop();
+//        view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Player.BLACK)));
     }
 
     private void gameLoop() {

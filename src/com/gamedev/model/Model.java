@@ -26,19 +26,6 @@ public class Model {
         board[3][4] = 1;
         board[4][3] = 1;
         board[4][4] = 2;
-        board[0][0] = 2;
-        board[0][7] = 2;
-        board[7][0] = 2;
-        board[7][7] = 2;
-        board[0][1] = 1;
-        board[0][2] = 1;
-        board[1][1] = 1;
-        board[1][0] = 1;
-        board[2][2] = 1;
-        board[2][3] = 1;
-        board[1][2] = 2;
-        board[2][1] = 2;
-        board[2][4] = 1;
     }
 
     public int[][] getBoard() {
