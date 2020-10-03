@@ -87,4 +87,8 @@ public class ConsoleView {
             System.out.println("Hints disabled!");
         }
     }
+
+    public void continueGameOrAbort() {
+        System.out.println("If you want to continue playing press 1, exit - 2.");
+    }
 }

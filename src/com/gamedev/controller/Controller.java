@@ -25,7 +25,10 @@ public class Controller {
     public void startGame() {
         view.startGameMenu();
         setupGame();
-        gameLoop();
+        for(;;) {
+            gameLoop();
+            afterGameLoop();
+        }
     }
 
     private void gameLoop() {
@@ -78,6 +81,19 @@ public class Controller {
                 view.invalidOptionMenu();
                 view.chooseModeMenu();
                 setupGame();
+            }
+        }
+    }
+
+    private void afterGameLoop() {
+        view.continueGameOrAbort();
+        String choice = scanner.nextLine();
+        switch (choice) {
+            case "1" -> startGame();
+            case "2" -> System.exit(0);
+            default -> {
+                view.invalidOptionMenu();
+                afterGameLoop();
             }
         }
     }
