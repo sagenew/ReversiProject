@@ -128,9 +128,12 @@ public class Controller {
 
     private Move moveFromInput(String line) {
         line = line.toUpperCase();
-        return inputMatchesFormat(line)
-                ? new Move(line.charAt(1) - '1', line.charAt(0) - 'A')
-                : null;
+        if(inputMatchesFormat(line)) {
+            return new Move(line.charAt(1) - '1', line.charAt(0) - 'A');
+        } else {
+            view.invalidMove();
+            return null;
+        }
     }
 
     private boolean inputMatchesFormat(String line) {
