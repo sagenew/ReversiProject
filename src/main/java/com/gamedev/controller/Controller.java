@@ -25,7 +25,7 @@ public class Controller {
     public void startGame() {
         view.startGameMenu();
         setupGame();
-        for(;;) {
+        for (;;) {
             gameLoop();
             gameOverMenu();
         }
@@ -40,7 +40,7 @@ public class Controller {
                 view.clearScreen();
                 view.printGameBoard(model.getGameBoard(showHints));
                 view.gameScoreMessage(model.getDiscsCount());
-                view.computerMoveMessage(lastComputerMove);
+                if (player != Player.PVP) view.computerMoveMessage(lastComputerMove);
                 Move move = getPlayerMove(currentPlayer);
                 model.placeDisc(move);
             } else {
@@ -79,7 +79,8 @@ public class Controller {
                 view.chooseModeMenu();
                 setupGame();
                 break;
-            case "4": System.exit(0);
+            case "4":
+                System.exit(0);
             default:
                 view.invalidOptionMenu();
                 view.chooseModeMenu();
@@ -128,7 +129,7 @@ public class Controller {
 
     private Move moveFromInput(String line) {
         line = line.toUpperCase();
-        if(inputMatchesFormat(line)) {
+        if (inputMatchesFormat(line)) {
             return new Move(line.charAt(1) - '1', line.charAt(0) - 'A');
         } else {
             view.invalidMove();
