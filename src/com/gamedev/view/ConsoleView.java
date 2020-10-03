@@ -83,4 +83,8 @@ public class ConsoleView {
     public void continueGameOrAbort() {
         System.out.println("If you want to continue playing press 1, exit - 2.");
     }
+
+    public void gameScoreMessage(int[] discsCount) {
+        System.out.println("[DISCS SCORE] Black " + discsCount[0] + ":" + discsCount[1] + " White");
+    }
 }

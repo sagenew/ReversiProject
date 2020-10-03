@@ -178,4 +178,20 @@ public class Model {
                 ? Player.BLACK
                 : Player.WHITE;
     }
+
+    public int[] getDiscsCount() {
+        int[] discCount = {0, 0};
+
+        for (int[] row : board) {
+            for (int element : row) {
+                if (element == 2) {
+                    discCount[0]++;
+                } else if (element == 1) {
+                    discCount[1]++;
+                }
+            }
+        }
+
+        return discCount;
+    }
 }

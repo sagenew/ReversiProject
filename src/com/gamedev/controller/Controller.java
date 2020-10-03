@@ -38,6 +38,7 @@ public class Controller {
             currentPlayer = model.getCurrentPlayer();
             if (isPlayerTurn(currentPlayer)) {
                 view.printGameBoard(model.getGameBoard(showHints));
+                view.gameScoreMessage(model.getDiscsCount());
                 Move move = getPlayerMove(currentPlayer);
                 model.placeDisc(move);
             } else {
