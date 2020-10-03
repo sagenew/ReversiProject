@@ -1,6 +1,10 @@
 package com.gamedev.view;
 
+import com.gamedev.model.entity.Move;
 import com.gamedev.model.entity.Player;
+import org.w3c.dom.ls.LSOutput;
+
+import java.io.IOException;
 
 public class ConsoleView {
 
@@ -12,10 +16,14 @@ public class ConsoleView {
             System.out.print(" | ");
             for (int col = 0; col < gameBoard[row].length; col++) {
                 switch (gameBoard[row][col]) {
-                    case 0 -> System.out.printf("   %c ", '|');
-                    case 1 -> System.out.printf("%s %c ", getWhiteDisc(), '|');
-                    case 2 -> System.out.printf("%s %c ", getBlackDisc(), '|');
-                    case 3 -> System.out.printf("%c %c ", '◯', '|');
+                    case 0: System.out.printf("   %c ", '|');
+                            break;
+                    case 1: System.out.printf("%s %c ", getWhiteDisc(), '|');
+                            break;
+                    case 2: System.out.printf("%s %c ", getBlackDisc(), '|');
+                            break;
+                    case 3: System.out.printf("%c %c ", '◯', '|');
+                            break;
                 }
             }
             System.out.print("\n");
@@ -25,12 +33,12 @@ public class ConsoleView {
 
     private String getBlackDisc() {
         if (System.getProperty("os.name").equals("Linux")) return "🔴";
-        else return "x ";
+        else return " x";
     }
 
     private String getWhiteDisc() {
         if (System.getProperty("os.name").equals("Linux")) return "🔵";
-        else return "o ";
+        else return " o";
     }
 
     public void printHorizontalLine() {
@@ -80,11 +88,31 @@ public class ConsoleView {
         }
     }
 
+    public void computerMoveMessage(Move move) {
+        if (move == null) {
+            System.out.println("[COMPUTER] Waiting for your move!");
+        } else {
+            System.out.println("[COMPUTER] My last move was: " + (char) ('A' + move.getCol()) + (char) ('1' + move.getRow()));
+        }
+    }
+
     public void continueGameOrAbort() {
         System.out.println("If you want to continue playing press 1, exit - 2.");
     }
 
     public void gameScoreMessage(int[] discsCount) {
         System.out.println("[DISCS SCORE] Black " + discsCount[0] + ":" + discsCount[1] + " White");
+    }
+
+    public void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (IOException | InterruptedException ex) {
+            System.out.println(ex);
+        }
     }
 }

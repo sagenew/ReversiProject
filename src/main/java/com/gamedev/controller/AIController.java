@@ -13,9 +13,11 @@ public class AIController {
         this.model = model;
     }
 
-    public void computerTurn() {
+    public Move computerTurn() {
         Player currentPlayer = model.getCurrentPlayer();
-        model.placeDisc(getRandomPossibleMove(currentPlayer));
+        Move move = getRandomPossibleMove(currentPlayer);
+        model.placeDisc(move);
+        return move;
     }
 
     private Move getRandomPossibleMove(Player currentPlayer) {

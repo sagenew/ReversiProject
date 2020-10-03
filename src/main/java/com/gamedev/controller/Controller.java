@@ -33,16 +33,18 @@ public class Controller {
 
     private void gameLoop() {
         Player currentPlayer;
-
+        Move lastComputerMove = null;
         while (model.gameNotFinished()) {
             currentPlayer = model.getCurrentPlayer();
             if (isPlayerTurn(currentPlayer)) {
+                view.clearScreen();
                 view.printGameBoard(model.getGameBoard(showHints));
                 view.gameScoreMessage(model.getDiscsCount());
+                view.computerMoveMessage(lastComputerMove);
                 Move move = getPlayerMove(currentPlayer);
                 model.placeDisc(move);
             } else {
-                aiController.computerTurn();
+                lastComputerMove = aiController.computerTurn();
             }
         }
 
@@ -63,26 +65,26 @@ public class Controller {
     private void setupGame() {
         String choice = scanner.nextLine();
         switch (choice) {
-            case "1" -> {
+            case "1":
                 chooseColor();
                 model.initGame();
-            }
-            case "2" -> {
+                break;
+            case "2":
                 player = Player.PVP;
                 model.initGame();
-            }
-            case "3" -> {
+                break;
+            case "3":
                 showHints = !showHints;
                 view.hintsOptionMessage(showHints);
                 view.chooseModeMenu();
                 setupGame();
-            }
-            case "4" -> System.exit(0);
-            default -> {
+                break;
+            case "4": System.exit(0);
+            default:
                 view.invalidOptionMenu();
                 view.chooseModeMenu();
                 setupGame();
-            }
+                break;
         }
     }
 
@@ -90,12 +92,15 @@ public class Controller {
         view.continueGameOrAbort();
         String choice = scanner.nextLine();
         switch (choice) {
-            case "1" -> startGame();
-            case "2" -> System.exit(0);
-            default -> {
+            case "1":
+                startGame();
+                break;
+            case "2":
+                System.exit(0);
+            default:
                 view.invalidOptionMenu();
                 gameOverMenu();
-            }
+                break;
         }
     }
 
@@ -104,12 +109,16 @@ public class Controller {
 
         String choice = scanner.nextLine();
         switch (choice) {
-            case "1" -> player = Player.BLACK;
-            case "2" -> player = Player.WHITE;
-            default -> {
+            case "1":
+                player = Player.BLACK;
+                break;
+            case "2":
+                player = Player.WHITE;
+                break;
+            default:
                 view.invalidOptionMenu();
                 chooseColor();
-            }
+                break;
         }
     }
 
