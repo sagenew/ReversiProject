@@ -8,8 +8,6 @@ import com.gamedev.view.ConsoleView;
 import java.util.Scanner;
 import java.util.Set;
 
-import static com.gamedev.controller.MessageUtils.*;
-
 public class Controller {
     Model model;
     ConsoleView view;
@@ -23,9 +21,10 @@ public class Controller {
     }
 
     public void startGame() {
-        startGameMenu();
+        view.startGameMenu();
         setupGame();
-        gameLoop();
+//        gameLoop();
+        view.printGameBoard(model.getGameBoardWithMoves(model.getPossibleMoves(Player.BLACK)));
     }
 
     private void gameLoop() {
@@ -38,7 +37,7 @@ public class Controller {
             }
         }
 
-        gameOverMessage(model.getWinner());
+        view.gameOverMessage(model.getWinner());
     }
 
     private Move getPlayerMove(Player currentPlayer) {
@@ -46,7 +45,7 @@ public class Controller {
         Move move = null;
         String line;
         while (!possibleMoves.contains(move)) {
-            playerMovePrompt(currentPlayer);
+            view.playerMovePrompt(currentPlayer);
             line = scanner.nextLine();
             move = moveFromInput(line);
         }
@@ -66,22 +65,22 @@ public class Controller {
             }
             case "3" -> System.exit(0);
             default -> {
-                invalidOptionMenu();
-                chooseModeMenu();
+                view.invalidOptionMenu();
+                view.chooseModeMenu();
                 setupGame();
             }
         }
     }
 
     private void chooseColor() {
-        chooseColorMenu();
+        view.chooseColorMenu();
 
         String choice = scanner.nextLine();
         switch (choice) {
             case "1" -> player = Player.BLACK;
             case "2" -> player = Player.WHITE;
             default -> {
-                invalidOptionMenu();
+                view.invalidOptionMenu();
                 chooseColor();
             }
         }
