@@ -23,12 +23,6 @@ public class Model {
         board[4][4] = 2;
     }
 
-    private void clearBoard() {
-        for (int[] row : board) {
-            Arrays.fill(row, 0);
-        }
-    }
-
     public void placeDisc(Move move) {
         int playerDisc = currentPlayer == Player.BLACK ? 2 : 1;
         int opponentDisc = currentPlayer == Player.BLACK ? 1 : 2;
@@ -151,10 +145,10 @@ public class Model {
     public int[][] getGameBoard(boolean showHints) {
         if (!showHints) return board;
 
-        int[][] gameBoardWithMoves = board.clone();
+        int[][] boardCopy = Arrays.stream(board).map(int[]::clone).toArray(int[][]::new);;
         Set<Move> moves = getPossibleMoves(currentPlayer);
-        moves.forEach((move) -> gameBoardWithMoves[move.getRow()][move.getCol()] = 3);
-        return gameBoardWithMoves;
+        moves.forEach((move) -> boardCopy[move.getRow()][move.getCol()] = 3);
+        return boardCopy;
     }
 
     public Player getCurrentPlayer() {
