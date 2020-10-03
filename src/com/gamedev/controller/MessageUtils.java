@@ -1,5 +1,7 @@
 package com.gamedev.controller;
 
+import com.gamedev.model.entity.Player;
+
 public class MessageUtils {
     private MessageUtils() {}
 
@@ -23,5 +25,13 @@ public class MessageUtils {
 
     static void invalidOptionMenu() {
         System.out.println("Invalid option chosen! Please choose again.");
+    }
+
+    static void playerMovePrompt(Player player) {
+        System.out.print("Enter move for " + player.toString() + " player: ");
+    }
+
+    static void gameOverMessage(Player player) {
+        System.out.println(player.toString() + " wins!");
     }
 }

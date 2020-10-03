@@ -1,10 +1,12 @@
 package com.gamedev.controller;
 
 import com.gamedev.model.Model;
-import com.gamedev.model.Model.*;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
 import com.gamedev.view.ConsoleView;
 
 import java.util.Scanner;
+import java.util.Set;
 
 import static com.gamedev.controller.MessageUtils.*;
 
@@ -23,6 +25,32 @@ public class Controller {
     public void startGame() {
         startGameMenu();
         setupGame();
+        gameLoop();
+    }
+
+    private void gameLoop() {
+        Player currentPlayer;
+        while (model.gameNotFinished()) {
+            currentPlayer = model.getCurrentPlayer();
+            if (isPlayerTurn(currentPlayer)) {
+                Move move = getPlayerMove(currentPlayer);
+                model.placeDisc();
+            }
+        }
+
+        gameOverMessage(model.getWinner());
+    }
+
+    private Move getPlayerMove(Player currentPlayer) {
+        Set<Move> possibleMoves = model.getPossibleMoves(currentPlayer);
+        Move move = null;
+        String line;
+        while (!possibleMoves.contains(move)) {
+            playerMovePrompt(currentPlayer);
+            line = scanner.nextLine();
+            move = moveFromInput(line);
+        }
+        return move;
     }
 
     private void setupGame() {
@@ -57,5 +85,20 @@ public class Controller {
                 chooseColor();
             }
         }
+    }
+
+    private boolean isPlayerTurn(Player currentPlayer) {
+        return player.equals(currentPlayer) || player.equals(Player.PVP);
+    }
+
+    private Move moveFromInput(String line) {
+        line = line.toUpperCase();
+        return inputMatchesFormat(line)
+                ? new Move(line.charAt(0) - 'A', line.charAt(1) - '1')
+                : null;
+    }
+
+    private boolean inputMatchesFormat(String line) {
+        return line.matches("^[A-H][1-8]$");
     }
 }
