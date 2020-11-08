@@ -1,11 +1,11 @@
 package com.gamedev;
 
-import com.gamedev.controller.Controller;
+import com.gamedev.controller.GameController;
 
 public class Main {
 
     public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.startGame();
+        GameController gameController = new GameController();
+        gameController.startGame();
     }
 }

@@ -1,11 +1,12 @@
 package com.gamedev.model;
 
+import com.gamedev.model.entity.GameResult;
 import com.gamedev.model.entity.Move;
 import com.gamedev.model.entity.Player;
 
 import java.util.*;
 
-public class Model {
+public class ReversiGame {
     private int[][] board;
     private Player currentPlayer;
     private final int BOARD_SIZE = 8;
@@ -159,7 +160,7 @@ public class Model {
         return getPossibleMoves(Player.BLACK).size() + getPossibleMoves(Player.WHITE).size() > 0;
     }
 
-    public Player getWinner() {
+    public GameResult getWinner() {
         int count = 0;
 
         for (int[] row : board) {
@@ -173,10 +174,10 @@ public class Model {
         }
 
         return count == 0
-                ? Player.TIE
+                ? GameResult.TIE
                 : count > 0
-                ? Player.BLACK
-                : Player.WHITE;
+                ? GameResult.BLACK_WIN
+                : GameResult.WHITE_WIN;
     }
 
     public int[] getDiscsCount() {
