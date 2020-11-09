@@ -23,7 +23,6 @@ public class MoveTree {
         level++;
         ReversiGame reversiGame = new ReversiGame(gameBoard, player);
         List<Move> possibleMoves = new ArrayList<>(reversiGame.getPossibleMoves(player));
-
         transformMovesToNodes(rootNode, reversiGame.getGameBoardCopy(),
                 possibleMoves, level, player);
     }
@@ -37,7 +36,7 @@ public class MoveTree {
     }
 
     private void parseNode(MoveNode node, int level) {
-        if (node.getLevel() > depth) return;
+        if (node.getLevel() >= depth) return;
 
         ReversiGame reversiGame = new ReversiGame(node.getGameBoard(), node.getPlayerColour());
         reversiGame.placeDisc(node.getMove());

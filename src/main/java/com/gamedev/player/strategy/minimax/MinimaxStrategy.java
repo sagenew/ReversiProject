@@ -25,7 +25,7 @@ public class MinimaxStrategy implements AbstractStrategy {
         ReversiGame reversiGame = new ReversiGame(board, player);
         if (reversiGame.getPossibleMoves(player).isEmpty()) return null;
 
-        MoveTree moveTree = new MoveTree(2);
+        MoveTree moveTree = new MoveTree(1);
         moveTree.initTree(board, player);
         moveTree.fillTree();
 
@@ -35,10 +35,10 @@ public class MinimaxStrategy implements AbstractStrategy {
     public static int evaluateMove(int[][] gameBoard, Move move, Player player) {
         ReversiGame reversiGame = new ReversiGame(gameBoard, player);
         reversiGame.placeDisc(move);
-        return 10 * positionalValue(reversiGame.getGameBoardCopy(), player)
-                //+ 25 * frontierValue(reversiGame, playerColour)
-               //+ 50 * positionalValue(move)
-              // + 50000 * reversiGame.getStableDiscsNumber(playerColour)
+        return //10 * positionalValue(reversiGame.getGameBoardCopy(), player)
+                //+ 25 * frontierValue(reversiGame, player)
+                + 50 * positionalValue(move)
+             // + 10000 * reversiGame.getStableDiscsNumber(player)
         ;
     }
 
