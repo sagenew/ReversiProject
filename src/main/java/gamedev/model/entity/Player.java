@@ -1,4 +1,4 @@
-package com.gamedev.model.entity;
+package gamedev.model.entity;
 
 public enum Player {
     WHITE, BLACK

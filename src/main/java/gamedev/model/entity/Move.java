@@ -1,4 +1,4 @@
-package com.gamedev.model.entity;
+package gamedev.model.entity;
 
 public class Move {
     int row;
@@ -15,5 +15,9 @@ public class Move {
 
     public int getCol() {
         return col;
+    }
+
+    public String toString () {
+        return String.format("[%s, %s]", row, col);
     }
 }
