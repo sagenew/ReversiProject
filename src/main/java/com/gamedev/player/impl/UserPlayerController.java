@@ -1,17 +1,18 @@
-package gamedev.player.impl;
+package com.gamedev.player.impl;
 
-import gamedev.model.ReversiGame;
-import gamedev.model.entity.Move;
-import gamedev.model.entity.Player;
+import com.gamedev.model.ReversiGame;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
+import com.gamedev.player.PlayerController;
 
 import java.util.Scanner;
 
-public class UserPlayer implements gamedev.player.Player {
+public class UserPlayerController implements PlayerController {
     ReversiGame reversiGame;
     Player player;
     Scanner scanner;
 
-    public UserPlayer(ReversiGame reversiGame, Player player) {
+    public UserPlayerController(ReversiGame reversiGame, Player player) {
         this.reversiGame = reversiGame;
         this.player = player;
         this.scanner = new Scanner(System.in);

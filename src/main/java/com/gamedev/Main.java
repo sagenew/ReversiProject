@@ -1,6 +1,6 @@
-package gamedev;
+package com.gamedev;
 
-import gamedev.controller.Controller;
+import com.gamedev.controller.Controller;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,4 +8,3 @@ public class Main {
         controller.init();
     }
 }
-

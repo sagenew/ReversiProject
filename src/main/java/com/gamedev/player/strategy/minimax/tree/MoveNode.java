@@ -1,8 +1,8 @@
-package gamedev.player.strategy.minimax.tree;
+package com.gamedev.player.strategy.minimax.tree;
 
-import gamedev.model.entity.Move;
-import gamedev.model.entity.Player;
-import gamedev.player.strategy.minimax.MinimaxStrategy;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
+import com.gamedev.player.strategy.minimax.MinimaxStrategy;
 
 import java.util.Comparator;
 import java.util.List;

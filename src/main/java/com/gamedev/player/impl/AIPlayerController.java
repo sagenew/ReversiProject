@@ -1,16 +1,17 @@
-package gamedev.player.impl;
+package com.gamedev.player.impl;
 
-import gamedev.model.ReversiGame;
-import gamedev.model.entity.Move;
-import gamedev.model.entity.Player;
-import gamedev.player.strategy.AbstractStrategy;
+import com.gamedev.model.ReversiGame;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
+import com.gamedev.player.PlayerController;
+import com.gamedev.player.strategy.AbstractStrategy;
 
-public class AIPlayer implements gamedev.player.Player {
+public class AIPlayerController implements PlayerController {
     ReversiGame reversiGame;
     Player player;
     AbstractStrategy strategy;
 
-    public AIPlayer(AbstractStrategy strategy, ReversiGame reversiGame, Player player) {
+    public AIPlayerController(AbstractStrategy strategy, ReversiGame reversiGame, Player player) {
         this.reversiGame = reversiGame;
         this.player = player;
         this.strategy = strategy;

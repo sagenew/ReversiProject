@@ -1,4 +1,4 @@
-package gamedev.model.entity;
+package com.gamedev.model.entity;
 
 public class Move {
     int row;

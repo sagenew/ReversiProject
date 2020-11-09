@@ -1,10 +1,10 @@
-package gamedev.player.strategy.minimax;
+package com.gamedev.player.strategy.minimax;
 
-import gamedev.model.ReversiGame;
-import gamedev.model.entity.Move;
-import gamedev.model.entity.Player;
-import gamedev.player.strategy.AbstractStrategy;
-import gamedev.player.strategy.minimax.tree.MoveTree;
+import com.gamedev.model.ReversiGame;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
+import com.gamedev.player.strategy.AbstractStrategy;
+import com.gamedev.player.strategy.minimax.tree.MoveTree;
 
 
 /**
@@ -25,7 +25,7 @@ public class MinimaxStrategy implements AbstractStrategy {
         ReversiGame reversiGame = new ReversiGame(board, player);
         if (reversiGame.getPossibleMoves(player).isEmpty()) return null;
 
-        MoveTree moveTree = new MoveTree(1);
+        MoveTree moveTree = new MoveTree(2);
         moveTree.initTree(board, player);
         moveTree.fillTree();
 

@@ -1,22 +1,18 @@
-package gamedev.model;
+package com.gamedev.model;
 
-import gamedev.model.entity.Move;
-import gamedev.model.entity.Player;
+import com.gamedev.model.entity.Move;
+import com.gamedev.model.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.gamedev.model.entity.Disc.*;
+
 public class ReversiGame {
     private int[][] board;
     private Player currentPlayer;
     private final int BOARD_SIZE = 8;
-
-    private final int EMPTY_DISC = 0;
-    private final int WHITE_DISC = 1;
-    private final int BLACK_DISC = 2;
-    private final int POSSIBLE_MOVE = 3;
-    private final int BLACK_HOLE = 4;
 
     public ReversiGame() {
         initGame();
@@ -52,7 +48,26 @@ public class ReversiGame {
                 flipDiscsInDirection(playerDisc, opponentDisc, move, directionsX[i], directionsY[i]);
             }
         }
-        changeCurrentPlayer();
+
+        checkGameState();
+    }
+
+    private void checkGameState() {
+        if (getPossibleMoves(Player.BLACK).size() + getPossibleMoves(Player.WHITE).size() == 0) {
+            return;
+        }
+
+        if (getPossibleMoves(Player.BLACK).size() > 0 && getPossibleMoves(Player.WHITE).size() == 0) {
+            currentPlayer = Player.BLACK;
+            return;
+        }
+
+        if (getPossibleMoves(Player.BLACK).size() == 0 && getPossibleMoves(Player.WHITE).size() > 0) {
+            currentPlayer = Player.WHITE;
+            return;
+        }
+
+        passTurn();
     }
 
     private void flipDiscsInDirection(int player, int opponent, Move move, int directionX, int directionY) {
@@ -87,7 +102,7 @@ public class ReversiGame {
         return ((i >= 0) && (i < 8) && (j >= 0) && (j < 8));
     }
 
-    private void changeCurrentPlayer() {
+    private void passTurn() {
         currentPlayer = currentPlayer == Player.BLACK
                 ? Player.WHITE
                 : Player.BLACK;
@@ -153,10 +168,8 @@ public class ReversiGame {
 
     public int getStableDiscsNumber(Player player) {
         int playerDisc = (player == Player.BLACK) ? BLACK_DISC : WHITE_DISC;
-        int opponentDisc = (player == Player.BLACK) ? WHITE_DISC : BLACK_DISC;
 
         int playerStableDiscs = 0;
-        int opponentStableDiscs = 0;
 
         int[] directionsX = {1, 1, -1, -1};
         int[] directionsY = {1, -1, -1, 1};
@@ -164,7 +177,6 @@ public class ReversiGame {
 
         for (int i = 0; i < directionsX.length; i++) {
             playerStableDiscs += stableDiscsFromCorner(corners[i], directionsX[i], directionsY[i], playerDisc);
-            opponentStableDiscs += stableDiscsFromCorner(corners[i], directionsX[i], directionsY[i], opponentDisc);
         }
 
         return playerStableDiscs;
@@ -202,24 +214,8 @@ public class ReversiGame {
         return moves;
     }
 
-    public void setBlackHole(Move blackHole) {
+    public void setBlackhole(Move blackHole) {
         board[blackHole.getRow()][blackHole.getCol()] = BLACK_HOLE;
-    }
-
-    public Move getBlackHole() {
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                if (board[i][j] == BLACK_HOLE) return new Move(i, j);
-        return null;
-    }
-
-    public int[][] getGameBoard(boolean showHints) {
-        if (!showHints) return board;
-
-        int[][] boardCopy = Arrays.stream(board).map(int[]::clone).toArray(int[][]::new);
-        Set<Move> moves = getPossibleMoves(currentPlayer);
-        moves.forEach((move) -> boardCopy[move.getRow()][move.getCol()] = POSSIBLE_MOVE);
-        return boardCopy;
     }
 
     public boolean gameNotFinished() {
